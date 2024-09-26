@@ -15,7 +15,7 @@ const Index = (props: Props) => {
           <img src={logo} alt="Logo Prognose" className="w-[32px]" />
         </Button>
       </Column>
-      <Column className="p-4">
+      <Column className="p-4 items-center">
         <SidebarItem
           icon={<Stethoscope size={18} />}
           label="Pacientes"

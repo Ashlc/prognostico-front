@@ -10,12 +10,14 @@ type Props = {
 const SidebarItem = ({ icon, label, open }: Props) => {
   return (
     <Button
-      icon={icon}
+      icon={open ? icon : ''}
       label={open ? label : ''}
       aria-label={label}
       text
-      className="gap-2"
-    />
+      className={open ? 'gap-2' : ''}
+    >
+      {!open && icon}
+    </Button>
   );
 };
 
