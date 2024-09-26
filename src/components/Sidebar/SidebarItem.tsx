@@ -8,7 +8,15 @@ type Props = {
 };
 
 const SidebarItem = ({ icon, label, open }: Props) => {
-  return <Button icon={icon} label={open ? label : ''} aria-label={label} />;
+  return (
+    <Button
+      icon={icon}
+      label={open ? label : ''}
+      aria-label={label}
+      text
+      className="gap-2"
+    />
+  );
 };
 
 export default SidebarItem;
