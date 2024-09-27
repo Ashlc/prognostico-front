@@ -6,11 +6,11 @@ const a = axios.create({
 });
 
 interface IRequestArguments {
-  path: string;
+  url: string;
   data?: Record<string, unknown> | FormData; // Generic object for data
   token?: string;
   headers?: Record<string, string>; // Dictionary of headers
-  params?: unknown // Dictionary of query string parameters
+  params?: unknown; // Dictionary of query string parameters
   raw?: boolean; // If the response should be raw
   responseType?: 'json' | 'blob'; // Response type
   formData?: boolean; // If the data is a FormData object
@@ -36,7 +36,7 @@ const handleHeaders = (args: IRequestArguments): Record<string, string> => {
 const get = async (args: IRequestArguments): Promise<AxiosResponse> => {
   const config: AxiosRequestConfig = {
     method: 'get',
-    url: `${args.path}`,
+    url: `${args.url}`,
     headers: handleHeaders(args),
     data: JSON.stringify(args.data),
     params: args.params,
@@ -56,7 +56,7 @@ const get = async (args: IRequestArguments): Promise<AxiosResponse> => {
 const post = async (args: IRequestArguments): Promise<AxiosResponse> => {
   const config: AxiosRequestConfig = {
     method: 'post',
-    url: `${args.path}`,
+    url: `${args.url}`,
     headers: handleHeaders(args),
     params: args.params,
     data: args.formData ? args.data : JSON.stringify(args.data),
@@ -68,7 +68,7 @@ const post = async (args: IRequestArguments): Promise<AxiosResponse> => {
 const put = (args: IRequestArguments): Promise<AxiosResponse> => {
   const config: AxiosRequestConfig = {
     method: 'put',
-    url: `${args.path}`,
+    url: `${args.url}`,
     headers: handleHeaders(args),
     params: args.params,
     data: args.formData ? args.data : JSON.stringify(args.data),
@@ -80,7 +80,7 @@ const put = (args: IRequestArguments): Promise<AxiosResponse> => {
 const del = (args: IRequestArguments): Promise<AxiosResponse> => {
   const config: AxiosRequestConfig = {
     method: 'delete',
-    url: `${args.path}`,
+    url: `${args.url}`,
     headers: handleHeaders(args),
     params: args.params,
     data: JSON.stringify(args.data),
@@ -88,7 +88,9 @@ const del = (args: IRequestArguments): Promise<AxiosResponse> => {
   return a.request(config);
 };
 
-export {
-  del, get, post, put
+export const api = {
+  get,
+  post,
+  put,
+  del,
 };
-
