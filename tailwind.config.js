@@ -6,6 +6,14 @@ export default {
       borderColor: {
         DEFAULT: ' var(--surface-border)',
       },
+      colors: {
+        primary: {
+          100: '#E7F2FB',
+          400: '#48B0E0',
+          500: '#3274E6',
+          600: '#2C62D6',
+        },
+      },
     },
   },
   plugins: [],
