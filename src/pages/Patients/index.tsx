@@ -3,15 +3,33 @@ import InputGroup from '@/components/InputGroup';
 import Row from '@/components/Row';
 import Section from '@/components/Section';
 import { mockPatients } from '@/services/mock';
-import { WandSparkles } from 'lucide-react';
+import { ArrowLeft, Edit, WandSparkles } from 'lucide-react';
+import { Button } from 'primereact/button';
 import { Dropdown } from 'primereact/dropdown';
+import { useNavigate } from 'react-router-dom';
 
 const index = () => {
   const patientId = window.location.href.split('/').pop();
   const patient = mockPatients[parseInt(patientId || '0')];
   console.log(patient);
+  const navigate = useNavigate();
   return (
-    <ColumnDiv className="w-11/12 mx-auto py-10 gap-10">
+    <ColumnDiv className="w-11/12 mx-auto py-10 gap-6">
+      <Row className="justify-between items-center pb-4 border-b">
+        <Row className="items-center gap-2">
+          <Button
+            icon={<ArrowLeft size={18} />}
+            aria-label="Voltar"
+            rounded
+            text
+            severity="secondary"
+            className="w-8 h-8 !aspect-square border-none"
+            onClick={() => navigate(-1)}
+          />
+          <p className="text-2xl font-bold text-primary-600">PACIENTE</p>
+        </Row>
+        <Button label="Editar" icon={<Edit size={18} className="mr-2" />} />
+      </Row>
       <Section header="Dados pessoais">
         <div className="grid grid-cols-8 gap-4">
           <div className="col-span-5">

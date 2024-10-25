@@ -61,7 +61,7 @@ const Index = () => {
 
   const renderStatus = (rowData: IPatient) => {
     return (
-      <Tag rounded severity={rowData.status === 'ACTIVE' ? null : 'info'}>
+      <Tag rounded severity={rowData.status === 'ACTIVE' ? null : 'secondary'}>
         {rowData.status === 'ACTIVE' ? 'Ativo' : 'Inativo'}
       </Tag>
     );
@@ -74,7 +74,7 @@ const Index = () => {
   return (
     <ColumnDiv className="h-screen w-full">
       <ColumnDiv className="mx-auto w-11/12 py-10 gap-10">
-        <Row className="justify-between items-center">
+        <Row className="justify-between items-center pb-4 border-b">
           <p className="text-2xl font-bold text-primary-600">PACIENTES</p>
           <Button label="Novo paciente" />
         </Row>
