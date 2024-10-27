@@ -16,3 +16,8 @@ export interface IPatient extends IUser {
   pathology: IPathology;
   prognostic?: IPrognostic;
 }
+
+export interface IManager extends IUser{
+  position: 'Médico' | 'Gestor'
+  actions: string;
+}

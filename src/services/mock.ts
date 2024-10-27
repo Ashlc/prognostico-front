@@ -1,4 +1,4 @@
-import { IPatient } from '../interfaces/IUser';
+import { IPatient, IManager } from '../interfaces/IUser';
 
 export const mockPatients: IPatient[] = [
   {
@@ -68,5 +68,30 @@ export const mockPatients: IPatient[] = [
       mortality: 0.3,
       comment: 'Patient has a high risk of mortality.',
     },
+  },
+];
+
+
+export const MockManagers: IManager[] = [
+  {
+    id: '1',
+    cpf: '123.456.789-00',
+    name: 'John Doe',
+    email: 'john.doe@example.com',
+    role: 'MANAGER',
+    status: 'ACTIVE',
+    position: 'Médico',
+    actions: '...',
+  },
+
+  {
+    id: '2',
+    cpf: '123.456.789-00',
+    name: 'John Doe',
+    email: 'john.doe@example.com',
+    role: 'MANAGER',
+    status: 'ACTIVE',
+    position: 'Gestor',
+    actions: '...',
   },
 ];
