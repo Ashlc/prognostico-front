@@ -2,10 +2,28 @@ import Logo from '@/assets/Logo.svg';
 import Column from '@/components/Column';
 import Row from '@/components/Row';
 import { Menubar } from 'primereact/menubar';
-import { Outlet } from 'react-router-dom';
+import { useEffect } from 'react';
+import { Outlet, useNavigate } from 'react-router-dom';
 
 const Index = () => {
-  const menuItems = [{ label: 'Pacientes' }, { label: 'Usuários' }];
+  const navigate = useNavigate()
+
+  const menuItems = [
+    { 
+      label: 'Pacientes', 
+      command: () =>  navigate('/'),
+    }, 
+    { label: 'Usuários', 
+      command: () =>  navigate('/users')
+    }
+  ];
+
+  useEffect(() => {
+    const elements = document.querySelectorAll('[aria-hidden]');
+    elements.forEach(element => {
+      element.removeAttribute('aria-hidden');
+    });
+  }, [])
 
   return (
     <Column className="w-full h-screen">
