@@ -6,8 +6,8 @@ export interface IUser {
   cpf: string;
   name: string;
   email: string;
-  role: 'MANAGER' | 'ADMIN' | 'PATIENT';
-  status: 'ACTIVE' | 'INACTIVE';
+  role: 'manager' | 'admin' | 'patient';
+  status: boolean;
 }
 
 export interface IPatient extends IUser {
