@@ -76,7 +76,6 @@ const Index = () => {
       <ColumnDiv className="mx-auto w-11/12 py-10 gap-10">
         <Row className="justify-between items-center pb-4 border-b">
           <p className="text-2xl font-bold text-primary-600">PACIENTES</p>
-          <Button label="Novo paciente" />
         </Row>
         <ColumnDiv className="w-full gap-6">
           <DataTable

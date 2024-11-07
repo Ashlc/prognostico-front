@@ -82,7 +82,6 @@ const Index = () => {
                     />
                     <p className="text-2xl font-bold text-primary-600 ">GESTÃO DE USUÁRIOS</p>
                 </Row>
-                <Button label="Adicionar Usuário" icon={<Plus size={18} className="mr-2" />} />
             </Row>
 
             <ColumnDiv className="w-full gap-6">

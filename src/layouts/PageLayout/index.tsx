@@ -23,13 +23,13 @@ const Index = () => {
     elements.forEach(element => {
       element.removeAttribute('aria-hidden');
     });
-  }, [])
+  }, []);
 
   return (
     <Column className="w-full h-screen">
       <Menubar
+        className="bg-white border-b font-medium px-4 "
         model={menuItems}
-        className="bg-white border-b font-medium px-4"
         start={
           <Row className="items-center mr-3 gap-2">
             <img src={Logo} alt="Prognose" className="h-6 mb-0.5" />
