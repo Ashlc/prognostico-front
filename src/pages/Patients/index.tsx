@@ -3,16 +3,27 @@ import InputGroup from '@/components/InputGroup';
 import Row from '@/components/Row';
 import Section from '@/components/Section';
 import { mockPatients } from '@/services/mock';
-import { ArrowLeft, Edit, WandSparkles } from 'lucide-react';
+import { ArrowLeft, Edit, WandSparkles, Save } from 'lucide-react';
 import { Button } from 'primereact/button';
 import { Dropdown } from 'primereact/dropdown';
+import { useState } from 'react';
 import { useNavigate } from 'react-router-dom';
+
 
 const index = () => {
   const patientId = window.location.href.split('/').pop();
-  const patient = mockPatients[parseInt(patientId || '0')];
-  console.log(patient);
   const navigate = useNavigate();
+
+  const [editPacient, setEditPacient] = useState(true);
+  const [patient, setPatient] = useState(mockPatients[parseInt(patientId || '0')]);
+  console.log(patient)
+
+  const handleChange = (event: React.ChangeEvent<HTMLInputElement>) => {
+    const {name, value} = event.target;
+    const newform = {...patient, [name]: value}
+    setPatient(newform);
+  }
+   
   return (
     <ColumnDiv className="w-11/12 mx-auto py-10 gap-6">
       <Row className="justify-between items-center pb-4 border-b">
@@ -28,25 +39,45 @@ const index = () => {
           />
           <p className="text-2xl font-bold text-primary-600">PACIENTE</p>
         </Row>
-        <Button label="Editar" icon={<Edit size={18} className="mr-2" />} />
+
+        {
+          editPacient ? 
+          <Button 
+            label="Editar" 
+            icon={<Edit size={18} /> }
+            className="mr-2" 
+            onClick={() => setEditPacient(prev => !prev)}
+          />
+          :
+            <Button 
+              label="Salvar" 
+              icon={<Save size={18} /> }
+              className="mr-2" 
+              onClick={() => setEditPacient(prev => !prev)}
+            />
+         }
+
+
       </Row>
       <Section header="Dados pessoais">
         <div className="grid grid-cols-8 gap-4">
           <div className="col-span-5">
-            <InputGroup label="Nome" value={patient?.name} readOnly />
+            <InputGroup label="Nome" name="name" value={patient?.name} readOnly = {editPacient}  handleChange = {handleChange}/>
           </div>
           <div className="col-span-1">
-            <InputGroup label="CPF" value={patient?.cpf} readOnly />
+            <InputGroup label="CPF" name="cpf" value={patient?.cpf} readOnly = {editPacient} handleChange = {handleChange}/>
           </div>
           <div className="col-span-1">
             <InputGroup
               label="Data de nascimento"
+              name = "birthDate"
               value={patient?.birthDate}
-              readOnly
+              readOnly = {editPacient}
+              handleChange = {handleChange}
             />
           </div>
           <div className="col-span-1">
-            <InputGroup label="Sexo" value={patient?.sex} readOnly />
+            <InputGroup label="Sexo" name="sex" value={patient?.sex} readOnly = {editPacient} handleChange = {handleChange} />
           </div>
         </div>
       </Section>
