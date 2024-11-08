@@ -25,7 +25,6 @@ const Index = () => {
     name: { value: null, matchMode: FilterMatchMode.STARTS_WITH },
     status: { value: null, matchMode: FilterMatchMode.EQUALS },
   });
-  // const [patients, setPatients] = useState <IPatient[]>([]);
   const [patients, setPatients] = useState([]);
 
   useEffect(() => {
