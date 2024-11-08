@@ -3,7 +3,7 @@ import Row from '@/components/Row';
 import { IPatient } from '@/interfaces/IUser';
 import { Search } from 'lucide-react';
 import { FilterMatchMode } from 'primereact/api';
-import { Button } from 'primereact/button';
+// import { Button } from 'primereact/button';
 import { Column } from 'primereact/column';
 import {
   DataTable,
@@ -31,8 +31,7 @@ const Index = () => {
   useEffect(() => {
     const fetchPatients = async () => {
       try {
-        const response = await api.get({ url: `/users` });
-        // console.log(response.data);
+        const response = await api.get({ url: `/users` }) as unknown as never[];
         console.log(response);
         setPatients(response);
         console.log(patients);
