@@ -1,7 +1,6 @@
 import ColumnDiv from '@/components/Column';
 import Row from '@/components/Row';
 import { IPatient } from '@/interfaces/IUser';
-import { mockPatients } from '@/services/mock';
 import { Search } from 'lucide-react';
 import { FilterMatchMode } from 'primereact/api';
 import { Button } from 'primereact/button';
@@ -15,8 +14,9 @@ import { IconField } from 'primereact/iconfield';
 import { InputIcon } from 'primereact/inputicon';
 import { InputText } from 'primereact/inputtext';
 import { Tag } from 'primereact/tag';
-import { useState } from 'react';
+import { useState, useEffect } from 'react';
 import { useNavigate } from 'react-router-dom';
+import { api } from '../../services/api';
 
 const Index = () => {
   const [globalFilterValue, setGlobalFilterValue] = useState('');
@@ -25,6 +25,24 @@ const Index = () => {
     name: { value: null, matchMode: FilterMatchMode.STARTS_WITH },
     status: { value: null, matchMode: FilterMatchMode.EQUALS },
   });
+  // const [patients, setPatients] = useState <IPatient[]>([]);
+  const [patients, setPatients] = useState([]);
+
+  useEffect(() => {
+    const fetchPatients = async () => {
+      try {
+        const response = await api.get({ url: `/users` });
+        // console.log(response.data);
+        console.log(response);
+        setPatients(response);
+        console.log(patients);
+      } catch (error) {
+        console.error('Error:', error);
+      }
+    };
+
+    fetchPatients();
+  }, []);
 
   const navigate = useNavigate();
 
@@ -61,8 +79,8 @@ const Index = () => {
 
   const renderStatus = (rowData: IPatient) => {
     return (
-      <Tag rounded severity={rowData.status === 'ACTIVE' ? null : 'secondary'}>
-        {rowData.status === 'ACTIVE' ? 'Ativo' : 'Inativo'}
+      <Tag rounded severity={rowData.status === true ? null : 'secondary'}>
+        {rowData.status === true ? 'Ativo' : 'Inativo'}
       </Tag>
     );
   };
@@ -83,7 +101,7 @@ const Index = () => {
             globalFilterFields={['name', 'cpf', 'email']}
             header={header}
             selectionMode="single"
-            value={mockPatients}
+            value={patients}
             emptyMessage="Nenhum paciente encontrado"
             filters={filters}
             onRowClick={onRowClick}
@@ -92,7 +110,7 @@ const Index = () => {
             <Column field="email" header="Email" />
             <Column field="cpf" header="CPF" />
             <Column field="birthDate" header="Idade" body={age} />
-            <Column field="sex" header="Sexo" />
+            <Column field="gender" header="Sexo" />
             <Column field="status" header="Status" body={renderStatus} />
           </DataTable>
         </ColumnDiv>
