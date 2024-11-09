@@ -83,7 +83,7 @@ const index = () => {
       </Section>
       {patient?.prognostic && (
         <Section header="Prognóstico">
-          <div className="grid grid-cols-6 gap-4">
+          <div className="grid grid-cols-5 gap-4">
             <div className="col-span-5">
               <div className="flex flex-row gap-3 border p-4 rounded-lg">
                 <WandSparkles size={22} className="text-primary-600" />
