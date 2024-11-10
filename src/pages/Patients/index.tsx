@@ -9,36 +9,72 @@ import { useState, useEffect } from 'react';
 import { useNavigate } from 'react-router-dom';
 import { api } from '../../services/api';
 
+// Definição das interfaces
+interface PathologicalData {
+  albumin: number;
+  ascites: string;
+  diff_diag: string;
+  encephalopathy: string;
+  inr: number;
+  total_bilirubin: number;
+}
 
-const index = () => {
+interface Prognosis {
+  class: string;
+  comments: string;
+  one_year: number;
+  perioperative_mortality: string;
+  score: number;
+  two_years: number;
+}
+
+interface Patient {
+  birthDate: string;
+  cpf: string;
+  email: string;
+  gender: string;
+  humanized_prognosis: string;
+  id: number;
+  name: string;
+  pathological_data: PathologicalData[];
+  prognosis: Prognosis[];
+  status: boolean;
+  type: string;
+}
+
+const Index = () => { // Renomeei para "Index" com letra maiúscula
   const patientId = window.location.href.split('/').pop();
   const navigate = useNavigate();
 
   const [editPacient, setEditPacient] = useState(true);
-  const [patient, setPatient] = useState([]);
-  
+  const [patient, setPatient] = useState<Patient | null>(null);
 
   useEffect(() => {
     const fetchPatients = async () => {
       try {
-        const response = await api.get({ url: `/users/${patientId}` }) as unknown as never[];
+        const response = await api.get({ url: `/users/${patientId}` }) as Patient;
         setPatient(response);
-        console.log(patient);
+        console.log(response);
       } catch (error) {
         console.error('Error:', error);
       }
     };
 
     fetchPatients();
-  }, []);
-  console.log(patient.prognosis);
+  }, [patientId]);
+
+  if (!patient) {
+    return <div>Carregando...</div>;
+  }
+
+  console.log(patient.prognosis[0]);
 
   const handleChange = (event: React.ChangeEvent<HTMLInputElement>) => {
-    const {name, value} = event.target;
-    const newform = {...patient, [name]: value}
-    setPatient(newform);
-  }
-   
+    const { name, value } = event.target;
+    const newForm = { ...patient, [name]: value };
+    setPatient(newForm);
+  };
+
   return (
     <ColumnDiv className="w-11/12 mx-auto py-10 gap-6">
       <Row className="justify-between items-center pb-4 border-b">
@@ -59,50 +95,50 @@ const index = () => {
           editPacient ? 
           <Button 
             label="Editar" 
-            icon={<Edit size={18} /> }
+            icon={<Edit size={18} />}
             className="mr-2" 
             onClick={() => setEditPacient(prev => !prev)}
           />
           :
             <Button 
               label="Salvar" 
-              icon={<Save size={18} /> }
+              icon={<Save size={18} />}
               className="mr-2" 
               onClick={() => setEditPacient(prev => !prev)}
             />
-         }
-
-
+        }
       </Row>
+      
       <Section header="Dados pessoais">
         <div className="grid grid-cols-8 gap-4">
           <div className="col-span-5">
-            <InputGroup label="Nome" name="name" value={patient?.name} readOnly = {editPacient}  handleChange = {handleChange}/>
+            <InputGroup label="Nome" name="name" value={patient?.name} readOnly={editPacient} handleChange={handleChange} />
           </div>
           <div className="col-span-1">
-            <InputGroup label="CPF" name="cpf" value={patient?.cpf} readOnly = {editPacient} handleChange = {handleChange}/>
+            <InputGroup label="CPF" name="cpf" value={patient?.cpf} readOnly={editPacient} handleChange={handleChange} />
           </div>
           <div className="col-span-1">
             <InputGroup
               label="Data de nascimento"
-              name = "birthDate"
-              value={patient?.birthDate}
-              readOnly = {editPacient}
-              handleChange = {handleChange}
+              name="birthDate"
+              value={new Date(patient?.birthDate).toLocaleDateString()}
+              readOnly={editPacient}
+              handleChange={handleChange}
             />
           </div>
           <div className="col-span-1">
-            <InputGroup label="Sexo" name="sex" value={patient?.gender} readOnly = {editPacient} handleChange = {handleChange} />
+            <InputGroup label="Sexo" name="gender" value={patient?.gender} readOnly={editPacient} handleChange={handleChange} />
           </div>
         </div>
       </Section>
-      {patient?.prognosis && (
+      
+      {patient.prognosis && patient.prognosis.length > 0 && (
         <Section header="Prognóstico">
           <div className="grid grid-cols-5 gap-4">
             <div className="col-span-5">
               <div className="flex flex-row gap-3 border p-4 rounded-lg">
                 <WandSparkles size={22} className="text-primary-600" />
-                <p>{patient?.prognosis?.comments}</p>
+                <p>{patient.prognosis[0]?.comments}</p>
               </div>
             </div>
             <div className="col-span-1 shadow-none border flex flex-col pt-5 px-4 justify-center h-28 rounded-lg relative">
@@ -110,7 +146,7 @@ const index = () => {
                 Classificação (Child-Pugh)
               </p>
               <p className="text-4xl font-bold text-primary-600">
-                {patient?.prognosis?.class}
+                {patient.prognosis[0]?.class}
               </p>
             </div>
             <div className="col-span-1 shadow-none border flex flex-col pt-5 px-4 justify-center h-28 rounded-lg relative">
@@ -119,7 +155,7 @@ const index = () => {
               </p>
               <Row className="items-end">
                 <p className="text-4xl font-bold text-primary-600">
-                  {patient?.prognosis?.score}
+                  {patient.prognosis[0]?.score}
                 </p>
                 <p className="text-slate-400">/40</p>
               </Row>
@@ -129,7 +165,7 @@ const index = () => {
                 Sobrevida em 1 ano
               </p>
               <p className="text-4xl font-bold text-primary-600">
-                {patient?.prognosis?.one_year }%
+                {patient.prognosis[0]?.one_year }%
               </p>
             </div>
             <div className="col-span-1 shadow-none border flex flex-col pt-5 px-4 justify-center h-28 rounded-lg relative">
@@ -137,7 +173,7 @@ const index = () => {
                 Sobrevida em 2 anos
               </p>
               <p className="text-4xl font-bold text-primary-600">
-                {patient?.prognosis?.two_yea }%
+                {patient.prognosis[0]?.two_years }%
               </p>
             </div>
             <div className="col-span-1 shadow-none border flex flex-col pt-5 px-4 justify-center h-28 rounded-lg relative">
@@ -145,61 +181,62 @@ const index = () => {
                 Taxa de mortalidade
               </p>
               <p className="text-4xl font-bold text-primary-600">
-                {patient?.prognosis?.perioperative_mortality }%
+                {patient.prognosis[0]?.perioperative_mortality }%
               </p>
             </div>
           </div>
         </Section>
       )}
+      
       <Section header="Informações patológicas">
         <div className="grid grid-cols-6 gap-4">
           <div className="col-span-2 flex flex-row gap-4">
             <InputGroup
               label="Diagnóstico diferencial"
-              value={patient?.pathological_data?.diagnostic}
+              value={patient?.pathological_data[0]?.diff_diag}
               readOnly
             />
             <InputGroup
               label="INR"
-              value={patient?.pathological_data?.cid}
+              value={patient?.pathological_data[0]?.inr}
               className="w-1"
               readOnly
             />
           </div>
           <InputGroup
             label="Albumina"
-            value={patient?.pathological_data?.albumin}
+            value={patient?.pathological_data[0]?.albumin}
             readOnly
           />
           <div className="flex flex-col gap-1 grow">
             <p className="text-slate-600 text-sm">Ascite</p>
             <Dropdown
-              value={patient?.pathological_data?.ascites}
+              value={patient?.pathological_data[0]?.ascites}
               options={[
                 { label: 'Ausente', value: 'none' },
                 { label: 'Pequena', value: 'small' },
                 { label: 'Volumosa', value: 'large' },
               ]}
-              readOnly
+              disabled
               className="grow"
             />
           </div>
 
           <InputGroup
             label="Bilirrubina"
-            value={patient?.pathological_data?.bilirubin}
+            value={patient?.pathological_data[0]?.total_bilirubin}
             readOnly
           />
           <div className="flex flex-col gap-1 grow">
             <p className="text-slate-600 text-sm">Encefalopatia</p>
             <Dropdown
-              value={patient?.pathological_data?.encefalopathy}
+              value={patient?.pathological_data[0]?.encephalopathy}
               options={[
                 { label: 'Ausente', value: 'none' },
                 { label: 'Graus I e II', value: '1-2' },
                 { label: 'Graus III e IV', value: '3-4' },
               ]}
-              readOnly
+              disabled
               className="grow"
             />
           </div>
@@ -209,4 +246,4 @@ const index = () => {
   );
 };
 
-export default index;
+export default Index;

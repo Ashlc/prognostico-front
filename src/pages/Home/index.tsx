@@ -68,11 +68,9 @@ const Index = () => {
     </IconField>
   );
 
-  const age = (rowData: IPatient) => {
-    const today = new Date();
-    const birthDate = new Date(rowData.birthDate);
-    const age = today.getFullYear() - birthDate.getFullYear();
-    return age;
+  const birthDate = (rowData: IPatient) => {
+    const birthDate = new Date(rowData.birthDate).toLocaleDateString();
+    return birthDate;
   };
 
   const renderStatus = (rowData: IPatient) => {
@@ -107,7 +105,7 @@ const Index = () => {
             <Column field="name" header="Nome" />
             <Column field="email" header="Email" />
             <Column field="cpf" header="CPF" />
-            <Column field="birthDate" header="Idade" body={age} />
+            <Column field="birthDate" header="Data de nascimento" body={birthDate} />
             <Column field="gender" header="Sexo" />
             <Column field="status" header="Status" body={renderStatus} />
           </DataTable>

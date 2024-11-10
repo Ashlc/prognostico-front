@@ -1,6 +1,5 @@
 import ColumnDiv from "@/components/Column";
 import Row from "@/components/Row";
-import { MockManagers } from '@/services/mock';
 import { Search } from 'lucide-react';
 import { FilterMatchMode } from 'primereact/api'
 import { Button } from 'primereact/button';
@@ -17,7 +16,7 @@ import { InputText } from 'primereact/inputtext';
 import { useNavigate } from 'react-router-dom';
 import { useState , useEffect  } from "react";
 import { api } from '../../services/api';
-import { ArrowLeft, Plus  } from 'lucide-react';
+import { ArrowLeft  } from 'lucide-react';
 
 const Index = () => {
     const [globalFilterValue, setGlobalFilterValue] = useState('');
