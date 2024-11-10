@@ -2,12 +2,12 @@ import ColumnDiv from '@/components/Column';
 import InputGroup from '@/components/InputGroup';
 import Row from '@/components/Row';
 import Section from '@/components/Section';
-import { mockPatients } from '@/services/mock';
 import { ArrowLeft, Edit, WandSparkles, Save } from 'lucide-react';
 import { Button } from 'primereact/button';
 import { Dropdown } from 'primereact/dropdown';
-import { useState } from 'react';
+import { useState, useEffect } from 'react';
 import { useNavigate } from 'react-router-dom';
+import { api } from '../../services/api';
 
 
 const index = () => {
@@ -15,8 +15,23 @@ const index = () => {
   const navigate = useNavigate();
 
   const [editPacient, setEditPacient] = useState(true);
-  const [patient, setPatient] = useState(mockPatients[parseInt(patientId || '0')]);
-  console.log(patient)
+  const [patient, setPatient] = useState([]);
+  
+
+  useEffect(() => {
+    const fetchPatients = async () => {
+      try {
+        const response = await api.get({ url: `/users/${patientId}` }) as unknown as never[];
+        setPatient(response);
+        console.log(patient);
+      } catch (error) {
+        console.error('Error:', error);
+      }
+    };
+
+    fetchPatients();
+  }, []);
+  console.log(patient.prognosis);
 
   const handleChange = (event: React.ChangeEvent<HTMLInputElement>) => {
     const {name, value} = event.target;
@@ -77,17 +92,17 @@ const index = () => {
             />
           </div>
           <div className="col-span-1">
-            <InputGroup label="Sexo" name="sex" value={patient?.sex} readOnly = {editPacient} handleChange = {handleChange} />
+            <InputGroup label="Sexo" name="sex" value={patient?.gender} readOnly = {editPacient} handleChange = {handleChange} />
           </div>
         </div>
       </Section>
-      {patient?.prognostic && (
+      {patient?.prognosis && (
         <Section header="Prognóstico">
           <div className="grid grid-cols-5 gap-4">
             <div className="col-span-5">
               <div className="flex flex-row gap-3 border p-4 rounded-lg">
                 <WandSparkles size={22} className="text-primary-600" />
-                <p>{patient?.prognostic?.comment}</p>
+                <p>{patient?.prognosis?.comments}</p>
               </div>
             </div>
             <div className="col-span-1 shadow-none border flex flex-col pt-5 px-4 justify-center h-28 rounded-lg relative">
@@ -95,7 +110,7 @@ const index = () => {
                 Classificação (Child-Pugh)
               </p>
               <p className="text-4xl font-bold text-primary-600">
-                {patient?.prognostic?.classification}
+                {patient?.prognosis?.class}
               </p>
             </div>
             <div className="col-span-1 shadow-none border flex flex-col pt-5 px-4 justify-center h-28 rounded-lg relative">
@@ -104,7 +119,7 @@ const index = () => {
               </p>
               <Row className="items-end">
                 <p className="text-4xl font-bold text-primary-600">
-                  {patient?.prognostic?.points}
+                  {patient?.prognosis?.score}
                 </p>
                 <p className="text-slate-400">/40</p>
               </Row>
@@ -114,7 +129,7 @@ const index = () => {
                 Sobrevida em 1 ano
               </p>
               <p className="text-4xl font-bold text-primary-600">
-                {patient?.prognostic?.inOneYear * 100}%
+                {patient?.prognosis?.one_year }%
               </p>
             </div>
             <div className="col-span-1 shadow-none border flex flex-col pt-5 px-4 justify-center h-28 rounded-lg relative">
@@ -122,44 +137,44 @@ const index = () => {
                 Sobrevida em 2 anos
               </p>
               <p className="text-4xl font-bold text-primary-600">
-                {patient?.prognostic?.inTwoYears * 100}%
+                {patient?.prognosis?.two_yea }%
               </p>
             </div>
             <div className="col-span-1 shadow-none border flex flex-col pt-5 px-4 justify-center h-28 rounded-lg relative">
               <p className="absolute top-3 left-4 text-sm text-slate-500">
-                Sobrevida em 1 ano
+                Taxa de mortalidade
               </p>
               <p className="text-4xl font-bold text-primary-600">
-                {patient?.prognostic?.mortality * 100}%
+                {patient?.prognosis?.perioperative_mortality }%
               </p>
             </div>
           </div>
         </Section>
       )}
       <Section header="Informações patológicas">
-        <div className="grid grid-cols-5 gap-4">
+        <div className="grid grid-cols-6 gap-4">
           <div className="col-span-2 flex flex-row gap-4">
             <InputGroup
               label="Diagnóstico diferencial"
-              value={patient?.pathology?.diagnostic}
+              value={patient?.pathological_data?.diagnostic}
               readOnly
             />
             <InputGroup
-              label="CID"
-              value={patient?.pathology?.cid}
+              label="INR"
+              value={patient?.pathological_data?.cid}
               className="w-1"
               readOnly
             />
           </div>
           <InputGroup
             label="Albumina"
-            value={patient?.pathology?.albumin.toString()}
+            value={patient?.pathological_data?.albumin}
             readOnly
           />
           <div className="flex flex-col gap-1 grow">
             <p className="text-slate-600 text-sm">Ascite</p>
             <Dropdown
-              value={patient?.pathology?.ascites}
+              value={patient?.pathological_data?.ascites}
               options={[
                 { label: 'Ausente', value: 'none' },
                 { label: 'Pequena', value: 'small' },
@@ -172,13 +187,13 @@ const index = () => {
 
           <InputGroup
             label="Bilirrubina"
-            value={patient?.pathology?.bilirubin.toString()}
+            value={patient?.pathological_data?.bilirubin}
             readOnly
           />
           <div className="flex flex-col gap-1 grow">
             <p className="text-slate-600 text-sm">Encefalopatia</p>
             <Dropdown
-              value={patient?.pathology?.encefalopathy}
+              value={patient?.pathological_data?.encefalopathy}
               options={[
                 { label: 'Ausente', value: 'none' },
                 { label: 'Graus I e II', value: '1-2' },
