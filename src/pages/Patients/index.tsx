@@ -4,7 +4,6 @@ import Row from '@/components/Row';
 import Section from '@/components/Section';
 import { ArrowLeft, Edit, WandSparkles, Save } from 'lucide-react';
 import { Button } from 'primereact/button';
-import { Dropdown } from 'primereact/dropdown';
 import { useState, useEffect } from 'react';
 import { useNavigate } from 'react-router-dom';
 import { api } from '../../services/api';
@@ -137,40 +136,87 @@ const Index = () => { // Renomeei para "Index" com letra maiúscula
           <div className="col-span-2 flex flex-row gap-4">
             <InputGroup
               label="Diagnóstico diferencial"
+              name="diff_diag"
               value={patient?.pathological_data[0]?.diff_diag}
-              readOnly ={editPacient}
+              readOnly={editPacient}
+              handleChange={(event: React.ChangeEvent<HTMLInputElement>) => {
+                const { name, value } = event.target;
+                const updatedPathologicalData = patient?.pathological_data.map((data, index) =>
+                  index === 0 ? { ...data, [name]: value } : data
+                );
+                setPatient({ ...patient, pathological_data: updatedPathologicalData });
+              }}
             />
             <InputGroup
               label="INR"
+              name="inr"
               value={patient?.pathological_data[0]?.inr}
               className="w-1"
               readOnly={editPacient}
+              handleChange={(event: React.ChangeEvent<HTMLInputElement>) => {
+                const { name, value } = event.target;
+                const updatedPathologicalData = patient?.pathological_data.map((data, index) =>
+                  index === 0 ? { ...data, [name]: value } : data
+                );
+                setPatient({ ...patient, pathological_data: updatedPathologicalData });
+              }}
             />
           </div>
           <InputGroup
             label="Albumina"
+            name="albumin"
             value={patient?.pathological_data[0]?.albumin}
             readOnly={editPacient}
+            handleChange={(event: React.ChangeEvent<HTMLInputElement>) => {
+              const { name, value } = event.target;
+              const updatedPathologicalData = patient?.pathological_data.map((data, index) =>
+                index === 0 ? { ...data, [name]: value } : data
+              );
+              setPatient({ ...patient, pathological_data: updatedPathologicalData });
+            }}
           />
           <div className="flex flex-col gap-1 grow">
-            
             <InputGroup
-            label="Ascite"
-            value={patient?.pathological_data[0]?.ascites}
-            readOnly={editPacient}
+              label="Ascite"
+              name="ascites"
+              value={patient?.pathological_data[0]?.ascites}
+              readOnly={editPacient}
+              handleChange={(event: React.ChangeEvent<HTMLInputElement>) => {
+                const { name, value } = event.target;
+                const updatedPathologicalData = patient?.pathological_data.map((data, index) =>
+                  index === 0 ? { ...data, [name]: value } : data
+                );
+                setPatient({ ...patient, pathological_data: updatedPathologicalData });
+              }}
             />
           </div>
 
           <InputGroup
             label="Bilirrubina"
+            name="total_bilirubin"
             value={patient?.pathological_data[0]?.total_bilirubin}
             readOnly={editPacient}
+            handleChange={(event: React.ChangeEvent<HTMLInputElement>) => {
+              const { name, value } = event.target;
+              const updatedPathologicalData = patient?.pathological_data.map((data, index) =>
+                index === 0 ? { ...data, [name]: value } : data
+              );
+              setPatient({ ...patient, pathological_data: updatedPathologicalData });
+            }}
           />
           <div className="flex flex-col gap-1 grow">
             <InputGroup
-            label="Encefalopatia"
-            value={patient?.pathological_data[0]?.encephalopathy}
-            readOnly={editPacient}
+              label="Encefalopatia"
+              name="encephalopathy"
+              value={patient?.pathological_data[0]?.encephalopathy}
+              readOnly={editPacient}
+              handleChange={(event: React.ChangeEvent<HTMLInputElement>) => {
+                const { name, value } = event.target;
+                const updatedPathologicalData = patient?.pathological_data.map((data, index) =>
+                  index === 0 ? { ...data, [name]: value } : data
+                );
+                setPatient({ ...patient, pathological_data: updatedPathologicalData });
+              }}
             />
           </div>
         </div>
