@@ -1,0 +1,97 @@
+import { IPatient, IManager } from '../interfaces/IUser';
+
+export const mockPatients: IPatient[] = [
+  {
+    id: '1',
+    cpf: '123.456.789-00',
+    name: 'John Doe',
+    email: 'john.doe@example.com',
+    role: 'PATIENT',
+    status: 'ACTIVE',
+    birthDate: '1990-01-01',
+    sex: 'M',
+    pathology: {
+      diagnostic: 'Chronic Liver Disease',
+      cid: 'K74',
+      comments: 'Patient shows signs of liver dysfunction.',
+      encefalopathy: '1',
+      ascites: 'small',
+      inr: 1.2,
+      bilirubin: 1.5,
+      albumin: 3.0,
+    },
+  },
+  {
+    id: '2',
+    cpf: '987.654.321-00',
+    name: 'Jane Smith',
+    email: 'jane.smith@example.com',
+    role: 'PATIENT',
+    status: 'ACTIVE',
+    birthDate: '1985-05-15',
+    sex: 'F',
+    pathology: {
+      diagnostic: 'Acute Hepatitis',
+      cid: 'K75',
+      comments: 'Patient recovering well with treatment.',
+      encefalopathy: 'none',
+      ascites: 'none',
+      inr: 1.0,
+      bilirubin: 0.8,
+      albumin: 4.0,
+    },
+  },
+  {
+    id: '3',
+    cpf: '123.456.789-00',
+    name: 'Kate Winslet',
+    email: 'kate.winslet@example.com',
+    role: 'PATIENT',
+    status: 'ACTIVE',
+    birthDate: '1990-01-01',
+    sex: 'F',
+    pathology: {
+      diagnostic: 'Chronic Liver Disease',
+      cid: 'K74',
+      comments: 'Patient shows signs of liver dysfunction.',
+      encefalopathy: '1-2',
+      ascites: 'small',
+      inr: 1.2,
+      bilirubin: 1.5,
+      albumin: 3.0,
+    },
+    prognostic: {
+      classification: 'A',
+      points: 10,
+      inOneYear: 0.81,
+      inTwoYears: 0.51,
+      mortality: 0.3,
+      comment: 'Patient has a high risk of mortality.',
+    },
+  },
+];
+
+
+export const MockManagers: IManager[] = [
+  {
+    id: '1',
+    cpf: '123.456.789-00',
+    name: 'John Doe',
+    email: 'john.doe@example.com',
+    role: 'MANAGER',
+    status: 'ACTIVE',
+    position: 'Médico',
+    actions: '...',
+  },
+
+  {
+    id: '2',
+    cpf: '123.456.789-00',
+    name: 'John Doe',
+    email: 'john.doe@example.com',
+    role: 'MANAGER',
+    status: 'ACTIVE',
+    position: 'Gestor',
+    actions: '...',
+  },
+];

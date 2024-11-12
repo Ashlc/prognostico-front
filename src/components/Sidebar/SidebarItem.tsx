@@ -5,9 +5,10 @@ type Props = {
   icon: ReactNode;
   open?: boolean;
   label: string;
+  onHandleClick: () => void;
 };
 
-const SidebarItem = ({ icon, label, open }: Props) => {
+const SidebarItem = ({ icon, label, open, onHandleClick }: Props) => {
   return (
     <Button
       icon={open ? icon : ''}
@@ -15,6 +16,7 @@ const SidebarItem = ({ icon, label, open }: Props) => {
       aria-label={label}
       text
       className={open ? 'gap-2' : ''}
+      onClick={() => onHandleClick()}
     >
       {!open && icon}
     </Button>
