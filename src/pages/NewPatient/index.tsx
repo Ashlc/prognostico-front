@@ -222,13 +222,13 @@ const Index = () => {
                             </Row>
                         </ColumnDiv>
                     </Section>
-                </ColumnDiv>
-                <div className='flex justify-center'>
-                    <Button type='submit' icon={<Save size={18} />} onClick={(e) => { 
+                <div className='flex justify-end'>
+                    <Button type='submit' className="flex gap-2" icon={<Save size={18} />} onClick={(e) => { 
                         e.preventDefault(); // Previne o comportamento padrão de submissão do formulário
                         submit(); 
                     }}>Salvar</Button>
                 </div>
+                </ColumnDiv>
             </form>
         </ColumnDiv>
     );
