@@ -92,7 +92,7 @@ const Index = () => {
           <Button
             label="Adicionar Paciente"
             icon={<Plus size={18} />}
-            className="mr-2"
+            className="flex gap-2"
             onClick={() => navigate('/novo')}
           />
         </Row>
