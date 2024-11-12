@@ -34,7 +34,6 @@ const Index = () => {
       try {
         const response = await api.get({ url: `/users` }) as unknown as never[];
         setUsers(response);
-        console.log(user);
       } catch (error) {
         console.error('Error:', error);
       }

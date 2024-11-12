@@ -78,6 +78,7 @@ const Index = () => {
         birthDate,
         ...patientDataWithoutPrognosis
       } = patient;
+
       const formattedBirthDate = new Date(birthDate)
         .toISOString()
         .split('T')[0];
@@ -87,6 +88,7 @@ const Index = () => {
         birthDate: formattedBirthDate,
       };
       console.log(patientDataToSend);
+      
       api.put({ url: `/users/${patientId}`, data: patientDataToSend });
     } else {
       console.error('Patient data is null, cannot submit.');
@@ -125,19 +127,11 @@ const Index = () => {
         ) : (
           <Button
             label="Salvar"
-            form="form"
             icon={<Save size={18} />}
             className="mr-2"
-            onClick={() => {
-              setEditPacient((prev) => !prev);
-              const form = document.forms.namedItem(
-                'form',
-              ) as HTMLFormElement | null;
-              if (form) {
-                form.submit();
-              } else {
-                console.error('Form with id "form" not found.');
-              }
+            onClick={(e: React.MouseEvent<HTMLButtonElement>) => {
+              setEditPacient(prev => !prev);
+              submit(e);
             }}
           />
         )}

@@ -33,7 +33,6 @@ const Index = () => {
         const response = (await api.get({
           url: `/users`,
         })) as unknown as never[];
-        console.log(response);
         setPatients(response);
       } catch (error) {
         console.error('Error:', error);
