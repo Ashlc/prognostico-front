@@ -2,9 +2,10 @@ import ColumnDiv from '@/components/Column';
 import Row from '@/components/Row';
 import Section from '@/components/Section';
 import { InputText } from 'primereact/inputtext';
-import { InputMask } from 'primereact/inputmask';
 import { Dropdown } from 'primereact/dropdown';
 import { useState } from 'react';
+import { Button } from 'primereact/button';
+import { api } from '../../services/api';
 
 
 // Definição das interfaces
@@ -17,17 +18,6 @@ interface PathologicalData {
     total_bilirubin: string;
   }
   
-  interface Prognosis {
-    class: string;
-    comments: string;
-    one_year: number;
-    perioperative_mortality: string;
-    score: number;
-    two_years: number;
-  }
-
-  
-
 interface formValues {
     birthDate: string;
     cpf: string;
@@ -37,8 +27,7 @@ interface formValues {
     id: number;
     name: string;
     pathological_data: PathologicalData[];
-    prognosis: Prognosis[];
-    status: boolean;
+    status: string;
     type: string;
 }
 
@@ -53,8 +42,7 @@ const Index = () => {
         id: 0,
         name: '',
         pathological_data: [],
-        prognosis: [],
-        status: false,
+        status: '',
         type: '',
     });
 
@@ -63,6 +51,15 @@ const Index = () => {
         const newForm = { ...formValues, [name]: value };
         setFormValues(newForm);
     };
+
+    function submit() {
+        if (formValues) {
+          console.log(typeof(formValues));
+          api.post({ url: `/users/`, data: formValues});
+        } else {
+          console.error('Patient data is null, cannot submit.');
+        }
+      }
 
     return (
         <ColumnDiv>
@@ -82,12 +79,11 @@ const Index = () => {
 
                         <div className="flex flex-col grow-0">
                             <label htmlFor="birthDate">Data de nascimento</label>
-                            <InputMask 
+                            <InputText 
                             className='text-center w-[10rem]'
                                 name = 'birthDate'
                                 value={formValues?.birthDate}
-                                onChange={handleChange}
-                                mask="99/99/9999" 
+                                onChange={handleChange} 
                             />
 
                         </div>
@@ -97,11 +93,10 @@ const Index = () => {
                         <div className="flex flex-col grow">
                             <label htmlFor="cpf">CPF</label>
 
-                            <InputMask 
+                            <InputText 
                                 name='cpf'
                                 value={formValues?.cpf}
                                 onChange={handleChange}
-                                mask="999.999.999-999" 
                             />
 
                         </div>
@@ -111,6 +106,23 @@ const Index = () => {
                             <InputText
                                 name="email"
                                 value={formValues?.email}
+                                onChange={handleChange}
+                            />
+                        </div>
+
+                        <div className="flex flex-col grow ">
+                            <label htmlFor="type">Tipo</label>
+                            <InputText
+                                name="type"
+                                value={formValues?.type}
+                                onChange={handleChange}
+                            />
+                        </div>
+                        <div className="flex flex-col grow ">
+                            <label htmlFor="status">Status</label>
+                            <InputText
+                                name="Status"
+                                value={formValues?.status}
                                 onChange={handleChange}
                             />
                         </div>
@@ -259,6 +271,9 @@ const Index = () => {
                     </ColumnDiv>
                 </Section>
             </ColumnDiv>
+            <div>
+                <Button type='submit' onClick={() => {submit();}}>Salvar</Button>
+            </div>
             </form>
         </ColumnDiv>
 
