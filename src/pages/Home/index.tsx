@@ -14,7 +14,7 @@ import { IconField } from 'primereact/iconfield';
 import { InputIcon } from 'primereact/inputicon';
 import { InputText } from 'primereact/inputtext';
 import { Tag } from 'primereact/tag';
-import { useState, useEffect } from 'react';
+import { useEffect, useState } from 'react';
 import { useNavigate } from 'react-router-dom';
 import { api } from '../../services/api';
 
@@ -30,10 +30,11 @@ const Index = () => {
   useEffect(() => {
     const fetchPatients = async () => {
       try {
-        const response = await api.get({ url: `/users` }) as unknown as never[];
+        const response = (await api.get({
+          url: `/users`,
+        })) as unknown as never[];
         console.log(response);
         setPatients(response);
-        console.log(patients);
       } catch (error) {
         console.error('Error:', error);
       }
@@ -48,7 +49,7 @@ const Index = () => {
     const value = e.target.value;
     const _filters = { ...filters };
 
-    _filters['global'].value = value;
+    _filters['global'] = { ..._filters['global'], value: value };
 
     setFilters(_filters);
     setGlobalFilterValue(value);
@@ -97,7 +98,7 @@ const Index = () => {
             globalFilterFields={['name', 'cpf', 'email']}
             header={header}
             selectionMode="single"
-            value={patients}
+            value={patients.length > 0 ? patients : []}
             emptyMessage="Nenhum paciente encontrado"
             filters={filters}
             onRowClick={onRowClick}
@@ -105,7 +106,11 @@ const Index = () => {
             <Column field="name" header="Nome" />
             <Column field="email" header="Email" />
             <Column field="cpf" header="CPF" />
-            <Column field="birthDate" header="Data de nascimento" body={birthDate} />
+            <Column
+              field="birthDate"
+              header="Data de nascimento"
+              body={birthDate}
+            />
             <Column field="gender" header="Sexo" />
             <Column field="status" header="Status" body={renderStatus} />
           </DataTable>
