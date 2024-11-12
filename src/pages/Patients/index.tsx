@@ -115,14 +115,14 @@ const Index = () => {
           <Button
             label="Editar"
             icon={<Edit size={18} />}
-            className="mr-2"
+            className="flex gap-2"
             onClick={() => setEditPacient((prev) => !prev)}
           />
         ) : (
           <Button
             label="Salvar"
             icon={<Save size={18} />}
-            className="mr-2"
+            className="flex gap-2"
             onClick={() => {
               setEditPacient(prev => !prev);
               submit();
