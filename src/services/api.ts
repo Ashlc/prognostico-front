@@ -50,6 +50,9 @@ const get = async (args: IRequestArguments): Promise<AxiosResponse> => {
   }
 
   const { data } = response;
+
+  console.log('GET', args.url, data);
+
   return data;
 };
 
@@ -61,7 +64,6 @@ const post = async (args: IRequestArguments): Promise<AxiosResponse> => {
     params: args.params,
     data: args.formData ? args.data : JSON.stringify(args.data),
   };
-  console.log(config);
   return a.request(config);
 };
 

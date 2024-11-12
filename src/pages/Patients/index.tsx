@@ -69,24 +69,20 @@ const Index = () => {
     return <div>Carregando...</div>;
   }
   console.log(patient);
-  function submit(e: React.FormEvent<HTMLFormElement>) {
-    e.preventDefault();
+  function submit() {
     if (patient) {
       const {
         prognosis,
         humanized_prognosis,
-        birthDate,
         ...patientDataWithoutPrognosis
       } = patient;
-      const formattedBirthDate = new Date(birthDate)
-        .toISOString()
-        .split('T')[0];
+
       const patientDataToSend = {
         ...patientDataWithoutPrognosis,
         pathological_data: patient.pathological_data[0],
-        birthDate: formattedBirthDate,
       };
       console.log(patientDataToSend);
+      
       api.put({ url: `/users/${patientId}`, data: patientDataToSend });
     } else {
       console.error('Patient data is null, cannot submit.');
@@ -125,24 +121,16 @@ const Index = () => {
         ) : (
           <Button
             label="Salvar"
-            form="form"
             icon={<Save size={18} />}
             className="mr-2"
             onClick={() => {
-              setEditPacient((prev) => !prev);
-              const form = document.forms.namedItem(
-                'form',
-              ) as HTMLFormElement | null;
-              if (form) {
-                form.submit();
-              } else {
-                console.error('Form with id "form" not found.');
-              }
+              setEditPacient(prev => !prev);
+              submit();
             }}
           />
         )}
       </Row>
-      <form id="form" onSubmit={submit}>
+      <form id="form" onSubmit={(e) => { e.preventDefault(); submit(); }}>
         <Section header="Dados pessoais">
           <div className="grid grid-cols-8 gap-4">
             <div className="col-span-5">
@@ -167,7 +155,7 @@ const Index = () => {
               <InputGroup
                 label="Data de nascimento"
                 name="birthDate"
-                value={new Date(patient?.birthDate).toLocaleDateString()}
+                value={patient?.birthDate}
                 readOnly={editPacient}
                 handleChange={handleChange}
               />

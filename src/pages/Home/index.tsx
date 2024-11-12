@@ -34,7 +34,6 @@ const Index = () => {
         const response = (await api.get({
           url: `/users`,
         })) as unknown as never[];
-        console.log(response);
         setPatients(response);
       } catch (error) {
         console.error('Error:', error);
@@ -70,10 +69,7 @@ const Index = () => {
     </IconField>
   );
 
-  const birthDate = (rowData: IPatient) => {
-    const birthDate = new Date(rowData.birthDate).toLocaleDateString();
-    return birthDate;
-  };
+
 
   const renderStatus = (rowData: IPatient) => {
     return (
@@ -117,7 +113,6 @@ const Index = () => {
             <Column
               field="birthDate"
               header="Data de nascimento"
-              body={birthDate}
             />
             <Column field="gender" header="Sexo" />
             <Column field="status" header="Status" body={renderStatus} />
