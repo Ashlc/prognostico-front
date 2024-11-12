@@ -1,7 +1,7 @@
 import ColumnDiv from '@/components/Column';
 import Row from '@/components/Row';
 import { IPatient } from '@/interfaces/IUser';
-import { Search } from 'lucide-react';
+import { Plus, Search } from 'lucide-react';
 import { FilterMatchMode } from 'primereact/api';
 // import { Button } from 'primereact/button';
 import { Column } from 'primereact/column';
@@ -13,6 +13,7 @@ import {
 import { IconField } from 'primereact/iconfield';
 import { InputIcon } from 'primereact/inputicon';
 import { InputText } from 'primereact/inputtext';
+import { Button } from 'primereact/button';
 import { Tag } from 'primereact/tag';
 import { useEffect, useState } from 'react';
 import { useNavigate } from 'react-router-dom';
@@ -91,6 +92,13 @@ const Index = () => {
       <ColumnDiv className="mx-auto w-11/12 py-10 gap-10">
         <Row className="justify-between items-center pb-4 border-b">
           <p className="text-2xl font-bold text-primary-600">PACIENTES</p>
+
+          <Button
+            label="Adicionar Paciente"
+            icon={<Plus size={18} />}
+            className="mr-2"
+            onClick={() => navigate('/novo')}
+          />
         </Row>
         <ColumnDiv className="w-full gap-6">
           <DataTable
