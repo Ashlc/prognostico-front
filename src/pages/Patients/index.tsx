@@ -74,17 +74,12 @@ const Index = () => {
       const {
         prognosis,
         humanized_prognosis,
-        birthDate,
         ...patientDataWithoutPrognosis
       } = patient;
 
-      const formattedBirthDate = new Date(birthDate)
-        .toISOString()
-        .split('T')[0];
       const patientDataToSend = {
         ...patientDataWithoutPrognosis,
         pathological_data: patient.pathological_data[0],
-        birthDate: formattedBirthDate,
       };
       console.log(patientDataToSend);
       
@@ -160,7 +155,7 @@ const Index = () => {
               <InputGroup
                 label="Data de nascimento"
                 name="birthDate"
-                value={new Date(patient?.birthDate).toLocaleDateString()}
+                value={patient?.birthDate}
                 readOnly={editPacient}
                 handleChange={handleChange}
               />

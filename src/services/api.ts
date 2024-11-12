@@ -50,6 +50,9 @@ const get = async (args: IRequestArguments): Promise<AxiosResponse> => {
   }
 
   const { data } = response;
+
+  console.log('GET', args.url, data);
+
   return data;
 };
 
