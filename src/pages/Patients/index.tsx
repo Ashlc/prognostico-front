@@ -11,12 +11,12 @@ import { api } from '../../services/api';
 
 // Definição das interfaces
 interface PathologicalData {
-  albumin: number;
+  albumin: string;
   ascites: string;
   diff_diag: string;
   encephalopathy: string;
-  inr: number;
-  total_bilirubin: number;
+  inr: string;
+  total_bilirubin: string;
 }
 
 interface Prognosis {
@@ -52,7 +52,7 @@ const Index = () => { // Renomeei para "Index" com letra maiúscula
   useEffect(() => {
     const fetchPatients = async () => {
       try {
-        const response = await api.get({ url: `/users/${patientId}` }) as Patient;
+        const response = await api.get({ url: `/users/${patientId}` }) as unknown as Patient;
         setPatient(response);
         console.log(response);
       } catch (error) {
@@ -132,6 +132,49 @@ const Index = () => { // Renomeei para "Index" com letra maiúscula
         </div>
       </Section>
       
+      <Section header="Informações patológicas">
+        <div className="grid grid-cols-6 gap-4">
+          <div className="col-span-2 flex flex-row gap-4">
+            <InputGroup
+              label="Diagnóstico diferencial"
+              value={patient?.pathological_data[0]?.diff_diag}
+              readOnly ={editPacient}
+            />
+            <InputGroup
+              label="INR"
+              value={patient?.pathological_data[0]?.inr}
+              className="w-1"
+              readOnly={editPacient}
+            />
+          </div>
+          <InputGroup
+            label="Albumina"
+            value={patient?.pathological_data[0]?.albumin}
+            readOnly={editPacient}
+          />
+          <div className="flex flex-col gap-1 grow">
+            
+            <InputGroup
+            label="Ascite"
+            value={patient?.pathological_data[0]?.ascites}
+            readOnly={editPacient}
+            />
+          </div>
+
+          <InputGroup
+            label="Bilirrubina"
+            value={patient?.pathological_data[0]?.total_bilirubin}
+            readOnly={editPacient}
+          />
+          <div className="flex flex-col gap-1 grow">
+            <InputGroup
+            label="Encefalopatia"
+            value={patient?.pathological_data[0]?.encephalopathy}
+            readOnly={editPacient}
+            />
+          </div>
+        </div>
+      </Section>
       {patient.prognosis && patient.prognosis.length > 0 && (
         <Section header="Prognóstico">
           <div className="grid grid-cols-5 gap-4">
@@ -187,61 +230,6 @@ const Index = () => { // Renomeei para "Index" com letra maiúscula
           </div>
         </Section>
       )}
-      
-      <Section header="Informações patológicas">
-        <div className="grid grid-cols-6 gap-4">
-          <div className="col-span-2 flex flex-row gap-4">
-            <InputGroup
-              label="Diagnóstico diferencial"
-              value={patient?.pathological_data[0]?.diff_diag}
-              readOnly
-            />
-            <InputGroup
-              label="INR"
-              value={patient?.pathological_data[0]?.inr}
-              className="w-1"
-              readOnly
-            />
-          </div>
-          <InputGroup
-            label="Albumina"
-            value={patient?.pathological_data[0]?.albumin}
-            readOnly
-          />
-          <div className="flex flex-col gap-1 grow">
-            <p className="text-slate-600 text-sm">Ascite</p>
-            <Dropdown
-              value={patient?.pathological_data[0]?.ascites}
-              options={[
-                { label: 'Ausente', value: 'none' },
-                { label: 'Pequena', value: 'small' },
-                { label: 'Volumosa', value: 'large' },
-              ]}
-              disabled
-              className="grow"
-            />
-          </div>
-
-          <InputGroup
-            label="Bilirrubina"
-            value={patient?.pathological_data[0]?.total_bilirubin}
-            readOnly
-          />
-          <div className="flex flex-col gap-1 grow">
-            <p className="text-slate-600 text-sm">Encefalopatia</p>
-            <Dropdown
-              value={patient?.pathological_data[0]?.encephalopathy}
-              options={[
-                { label: 'Ausente', value: 'none' },
-                { label: 'Graus I e II', value: '1-2' },
-                { label: 'Graus III e IV', value: '3-4' },
-              ]}
-              disabled
-              className="grow"
-            />
-          </div>
-        </div>
-      </Section>
     </ColumnDiv>
   );
 };
