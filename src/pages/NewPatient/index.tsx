@@ -133,14 +133,17 @@ const Index = () => {
 
                             <div className="flex flex-col grow ">
                                 <label htmlFor="status">Status</label>
-                                <InputText
+                                <Dropdown
                                     name="status"
-                                    value={formValues.status}
-                                    onChange={handleChange}
+                                    value={formValues.status} 
+                                    onChange={(e) => setFormValues({ ...formValues, status: e.value })}
+                                    options={[{ name: 'true' }, { name: 'false' }]} 
+                                    optionLabel="name" 
+                                    className="w-full "
                                 />
                             </div>
 
-                            <div className="flex flex-col w-[4rem]">
+                            <div className="flex flex-col w-[5rem]">
                                 <label htmlFor="gender">Sexo</label>
 
                                 <Dropdown 
