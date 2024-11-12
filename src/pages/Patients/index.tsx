@@ -69,8 +69,7 @@ const Index = () => {
     return <div>Carregando...</div>;
   }
   console.log(patient);
-  function submit(e: React.FormEvent<HTMLFormElement>) {
-    e.preventDefault();
+  function submit() {
     if (patient) {
       const {
         prognosis,
@@ -129,14 +128,14 @@ const Index = () => {
             label="Salvar"
             icon={<Save size={18} />}
             className="mr-2"
-            onClick={(e: React.MouseEvent<HTMLButtonElement>) => {
+            onClick={() => {
               setEditPacient(prev => !prev);
-              submit(e);
+              submit();
             }}
           />
         )}
       </Row>
-      <form id="form" onSubmit={submit}>
+      <form id="form" onSubmit={(e) => { e.preventDefault(); submit(); }}>
         <Section header="Dados pessoais">
           <div className="grid grid-cols-8 gap-4">
             <div className="col-span-5">
